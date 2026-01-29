@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Vail Snowboard Countdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --bg1: #0f2027;
+            --bg2: #203a43;
+            --bg3: #2c5364;
+            --accent: #00e5ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 50px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            margin: 0 0 30px;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .unit {
+            min-width: 120px;
+        }
+
+        .number {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 25px rgba(0, 229, 255, 0.6);
+        }
+
+        .label {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            opacity: 0.75;
+        }
+
+        @media (max-width: 700px) {
+            .countdown {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .number {
+                font-size: 3.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Vail Mountain · Snowboard Day</h1>
+
+    <div class="countdown">
+        <div class="unit">
+            <div class="number" id="days">0</div>
+            <div class="label">DÍAS</div>
+        </div>
+        <div class="unit">
+            <div class="number" id="hours">0</div>
+            <div class="label">HORAS</div>
+        </div>
+        <div class="unit">
+            <div class="number" id="minutes">0</div>
+            <div class="label">MINUTOS</div>
+        </div>
+        <div class="unit">
+            <div class="number" id="seconds">0</div>
+            <div class="label">SEGUNDOS</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Domingo 7 de marzo de 2026 – 09:00 AM
+    // Vail Mountain (MST, UTC-7)
+    const targetDate = new Date("2026-03-07T09:00:00-07:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            document.querySelector(".container").innerHTML = `
+                <h1>🏂 LET'S RIDE</h1>
+                <div style="font-size:2.5rem; color:#00e5ff; text-shadow:0 0 30px rgba(0,229,255,.8);">
+                    VAIL IS OPEN
+                </div>
+            `;
+            return;
+        }
+
+        const seconds = Math.floor((diff / 1000) % 60);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+        document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+        document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
